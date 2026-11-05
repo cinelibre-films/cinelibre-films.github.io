@@ -107,10 +107,49 @@ const longFilms = [
     description: "Sur le point d'être promue cheffe de service, Nina doit lancer des cours de cuisine diététique à l'hôpital… avec un chef qui ne lui facilite pas la tâche." },
   { kind: 'long', youtube: 'B7g01sJQ4Xk', title: "Mon Noël en Alaska", year: 2018, genre: "Romance", minutes: 81, channel: "M6 Films & Séries",
     description: "Pilote d'avion à Seattle, Zoey hérite d'un ranch en Alaska à quelques jours de Noël. Elle part le vendre… mais rien ne se passe comme prévu." },
+  { kind: 'long', youtube: 'CKsBEUbMbtg', title: "Jungle Survivors", year: null, genre: "Horreur", minutes: 90, channel: "Allociné Films Complets",
+    description: "En mission de surveillance dans une forêt primaire, un garde forestier tombe sur deux survivalistes au mode de vie post-apocalyptique… et inquiétant.",
+    note: "Film d'horreur : déconseillé aux plus jeunes." },
+  { kind: 'long', youtube: 'FUkaEwcCrZw', title: "Baignade mortelle", year: null, genre: "Horreur", minutes: 76, channel: "Allociné Films Complets",
+    description: "Des grands requins blancs attaquent un bateau de pêche. À des kilomètres du rivage, les passagers doivent se battre pour survivre.",
+    note: "Film d'horreur : déconseillé aux plus jeunes." },
+  { kind: 'long', youtube: 'H9bbjJSf3aU', title: "La Proie des ténèbres", year: null, genre: "Horreur", minutes: 77, channel: "Allociné Films Complets",
+    description: "Un démon antique est libéré dans une petite ville d'Alaska. Le seul espoir : un chasseur de démons et une agente du FBI.",
+    note: "Film d'horreur : déconseillé aux plus jeunes." },
+  { kind: 'long', youtube: '_9ATLwEdcmk', title: "Night Attack", year: null, genre: "Horreur", minutes: 84, channel: "Allociné Films Complets",
+    description: "Une femme enceinte est traquée par un inconnu obsédé par son enfant à naître.",
+    note: "Film d'horreur : déconseillé aux plus jeunes." },
+  { kind: 'long', youtube: 'uAaLIUgiPCQ', title: "Zombies Chaos", year: null, genre: "Horreur", minutes: 84, channel: "Allociné Films Complets",
+    description: "Des étudiants tournent un petit film d'horreur en forêt quand la télé annonce que, partout dans le pays, les morts reviennent à la vie.",
+    note: "Film d'horreur : déconseillé aux plus jeunes." },
+  { kind: 'long', youtube: 'qUjHhgJc4Bs', title: "Duel fatal", year: null, genre: "Science-fiction", minutes: 68, channel: "Allociné Films Complets",
+    description: "Une agente spécialisée dans les crimes mutants infiltre la société Medusa pour prouver ses recherches génétiques secrètes." },
+  { kind: 'long', youtube: 'WtDODyFgbCs', title: "Mort en eaux troubles", year: null, genre: "Science-fiction", minutes: 84, channel: "Allociné Films Complets",
+    description: "Dans un futur proche où la glace recouvre presque toute la planète, les requins sont devenus les maîtres du monde." },
+  { kind: 'long', youtube: 'AeX2efiaak0', title: "Traquée", year: null, genre: "Science-fiction", minutes: 89, channel: "Allociné Films Complets",
+    description: "Quand Ruth découvre qu'elle a des super-pouvoirs, elle doit fuir loin des siens." },
+  { kind: 'long', youtube: 'wNWrLWACkzM', title: "Panique biologique", year: null, genre: "Science-fiction", minutes: 82, channel: "Allociné Films Complets",
+    description: "En pleine pandémie, un vortex polaire géant gèle la planète. Un virologue qui détient le seul remède doit traverser ce monde glacé." },
+  { kind: 'long', youtube: 'imC4DJarGlI', title: "The Quarantine Patient", year: null, genre: "Science-fiction", minutes: 104, channel: "Allociné Films Complets",
+    description: "Une équipe descend explorer le forage le plus profond du monde… et y découvre la plus grande menace de l'histoire." },
+  { kind: 'long', youtube: 'kN8WEwvHXRQ', title: "L'Aube de l'invasion", year: null, genre: "Science-fiction", minutes: 87, channel: "Allociné Films Complets",
+    description: "Un frère et une sœur astronomes s'allient à l'armée quand des extraterrestres attaquent la Terre." },
+  { kind: 'long', youtube: 'o_ntN7NcYjU', title: "La Princesse elfique", year: null, genre: "Fantastique", minutes: 85, channel: "Allociné Films Complets",
+    description: "Deux frères orphelins rejoignent une bande de guerriers peu recommandables, lancés dans une chasse aux dragons périlleuse." },
+  { kind: 'long', youtube: 'i6FH_OZvNIY', title: "Naissance d'un vampire", year: null, genre: "Fantastique", minutes: 75, channel: "Allociné Films Complets",
+    description: "Au XVIIIe siècle, un aventurier doit ramener un moine aux savoirs interdits d'un monastère maudit… et affronter le Prince des Ténèbres." },
+  { kind: 'long', youtube: 'Zl2uUtTCqy8', title: "Transformation", year: null, genre: "Fantastique", minutes: 97, channel: "Allociné Films Complets",
+    description: "Deux sœurs fascinées par la mort affrontent des conséquences tragiques quand l'une d'elles est mordue par un loup-garou.",
+    note: "Film d'horreur : déconseillé aux plus jeunes." },
+  { kind: 'long', youtube: '-ScCM-hMtf0', title: "Monstrueuse", year: null, genre: "Fantastique", minutes: 113, channel: "Allociné Films Complets",
+    description: "En 1912, une enfant au corps couvert de poils grandit cachée. En quête de liberté, elle affronte le rejet et la cruauté." },
+  { kind: 'long', youtube: 'rriQE42Upy8', title: "Chasse au monstre", year: null, genre: "Fantastique", minutes: 87, channel: "Allociné Films Complets",
+    description: "Un capitaine obsédé traque l'immense créature marine qui l'a mutilé, dans une chasse où la folie devient son pire ennemi." },
 ];
 for (const f of longFilms) f.img = `https://i.ytimg.com/vi/${f.youtube}/mqdefault.jpg`;
 for (const f of shortFilms) f.kind = 'court';
 const catalog = [...longFilms, ...shortFilms];
+const GENRE_ORDER = ['Horreur', 'Science-fiction', 'Fantastique', 'Action', 'Thriller', 'Western', 'Comédie', 'Romance'];
 
 const $ = sel => document.querySelector(sel);
 const el = (tag, props = {}, ...children) => {
@@ -150,7 +189,16 @@ function render(q = '') {
   const msg = () => el('p', { className: 'muted empty' }, `Aucun résultat pour « ${q.trim()} ».`);
   const longs = filtered.filter(f => f.kind === 'long');
   const courts = filtered.filter(f => f.kind === 'court');
-  newCards.replaceChildren(...(longs.length ? longs.map(card) : [msg()]));
+  if (!query) {
+    // Sans recherche : une rangée par genre.
+    newCards.className = 'genre-rows';
+    const groups = GENRE_ORDER.map(g => [g, longs.filter(f => f.genre === g)]).filter(([, l]) => l.length);
+    newCards.replaceChildren(...groups.map(([g, l]) => el('div', { className: 'genre-row' },
+      el('h3', {}, g), el('div', { className: 'cards' }, ...l.map(card)))));
+  } else {
+    newCards.className = 'cards';
+    newCards.replaceChildren(...(longs.length ? longs.map(card) : [msg()]));
+  }
   popularCards.replaceChildren(...(courts.length ? courts.map(card) : [msg()]));
 }
 
