@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>CinéLibre — Films & séries</title>
 <meta name="description" content="CinéLibre : films et séries à regarder gratuitement, dont la diffusion est autorisée.">
-<link rel="stylesheet" href="style.css?v=3">
+<link rel="stylesheet" href="style.css?v=4">
 </head>
 <body>
 <header class="topbar">
@@ -17,6 +17,7 @@
     <a href="#affiche">☆ À l'affiche</a>
     <a href="#nouveautes">♨ Nouveautés</a>
     <a href="#genres">▦ Genres</a>
+    <a href="#ailleurs">↗ Gratuit ailleurs</a>
   </nav>
   <input id="search" type="search" placeholder="Rechercher un film, une série…" aria-label="Rechercher">
 </header>
@@ -32,8 +33,8 @@
     </div>
   </section>
 
-  <section id="nouveautes"><h2>Nouveautés</h2><div class="cards" id="newCards"></div></section>
-  <section id="films"><h2>Tous les films</h2><div class="cards" id="popularCards"></div></section>
+  <section id="nouveautes"><h2>Films complets en VF</h2><div class="cards" id="newCards"></div></section>
+  <section id="films"><h2>Courts-métrages d'animation</h2><div class="cards" id="popularCards"></div></section>
   <section id="series"><h2>Séries</h2><p class="muted">Les séries autorisées seront ajoutées prochainement.</p></section>
   <section id="genres"><h2>Genres</h2><div class="chips" id="genreChips"></div></section>
 
@@ -41,14 +42,28 @@
     <h2>Lecteur</h2>
     <p class="muted" id="nowPlaying">Choisissez un film du catalogue, ou testez avec une vidéo de votre appareil (elle n'est pas envoyée au site).</p>
     <input id="localVideoFile" type="file" accept="video/*" aria-label="Choisir une vidéo locale">
+    <div id="ytWrap" hidden><div id="ytPlayer"></div></div>
     <video id="licensedVideo" controls playsinline preload="metadata"></video>
     <p id="videoStatus" class="muted" role="status">La fenêtre de soutien s'affiche seulement lorsqu'un film se termine.</p>
+  </section>
+
+  <section id="ailleurs">
+    <h2>Gratuit ailleurs</h2>
+    <p class="muted">D'autres films récents à regarder gratuitement et légalement sur les plateformes des chaînes françaises (le catalogue change chaque semaine).</p>
+    <div class="platforms">
+      <a class="platform" href="https://www.arte.tv/fr/videos/cinema/" target="_blank" rel="noopener"><strong>arte.tv</strong><span>Cinéma d'auteur et grands films, sans pub</span></a>
+      <a class="platform" href="https://www.france.tv/films/" target="_blank" rel="noopener"><strong>france.tv</strong><span>Films français et internationaux</span></a>
+      <a class="platform" href="https://www.tf1.fr/" target="_blank" rel="noopener"><strong>TF1+</strong><span>Films et séries avec publicité</span></a>
+      <a class="platform" href="https://www.m6.fr/" target="_blank" rel="noopener"><strong>M6+</strong><span>Films et séries avec publicité</span></a>
+      <a class="platform" href="https://www.youtube.com/@Films_Complets" target="_blank" rel="noopener"><strong>Allociné Films Complets</strong><span>Des centaines de films en VF sur YouTube</span></a>
+      <a class="platform" href="https://www.youtube.com/@M6Films_Series" target="_blank" rel="noopener"><strong>M6 Films &amp; Séries</strong><span>Téléfilms complets en VF sur YouTube</span></a>
+    </div>
   </section>
 
   <section id="apropos">
     <h2>À propos</h2>
     <p class="muted">CinéLibre est gratuit. Les dons sont facultatifs et servent uniquement à couvrir les frais du site. Seules des œuvres dont la diffusion est autorisée sont proposées.</p>
-    <p class="muted small">Films : © Blender Foundation · <a href="https://studio.blender.org/films/" target="_blank" rel="noopener">studio.blender.org</a> · licence Creative Commons BY. Vidéos hébergées par Internet Archive et Wikimedia Commons.</p>
+    <p class="muted small">Longs-métrages : diffusés par leurs chaînes YouTube officielles (Allociné Films Complets, M6 Films &amp; Séries). Courts-métrages : © Blender Foundation · <a href="https://studio.blender.org/films/" target="_blank" rel="noopener">studio.blender.org</a> · licence Creative Commons BY. Vidéos hébergées par Internet Archive et Wikimedia Commons.</p>
   </section>
 </main>
 
@@ -115,6 +130,6 @@
   <p id="vipBadge" hidden></p>
   © 2026 CinéLibre · Dons facultatifs via PayPal · Regarder reste gratuit
 </footer>
-<script src="script.js?v=3"></script>
+<script src="script.js?v=4"></script>
 </body>
 </html>
