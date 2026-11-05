@@ -7,7 +7,7 @@
    "src" = adresse de la vidéo, "img" = image d'affiche (facultative).
    ========================================================================= */
 const CREDIT = '© Blender Foundation · studio.blender.org · licence Creative Commons BY';
-const catalog = [
+const shortFilms = [
   {
     title: "Wing It!", year: 2023, genre: "Comédie", minutes: 4, tone: '#c2410c',
     description: "Un chat inventeur et son compagnon canin bricolent une fusée dans leur grange. Le décollage ne va pas du tout se passer comme prévu.",
@@ -77,6 +77,41 @@ const catalog = [
   },
 ];
 
+/* Longs-métrages complets en VF, publiés gratuitement et légalement par leurs ayants droit
+   sur leurs chaînes YouTube officielles (intégration autorisée). Un film peut être retiré
+   par son ayant droit : vérifier la liste de temps en temps. */
+const longFilms = [
+  { kind: 'long', youtube: 'ON6kusOM-WA', title: "La Vallée de la Mort", year: 2014, genre: "Western", minutes: 108, channel: "Allociné Films Complets",
+    description: "Fin du XIXe siècle, dans les Alpes. Un mystérieux cavalier qui se dit photographe arrive dans un village isolé, tenu d'une main de fer par un clan redoutable." },
+  { kind: 'long', youtube: 'mTtH6fmfKhg', title: "Mon mariage est un mensonge", year: 2021, genre: "Thriller", minutes: 89, channel: "M6 Films & Séries",
+    description: "Jeune mariée, Alison perd son mari, renversé par une voiture. En fouillant son passé, elle découvre que l'homme idéal lui cachait beaucoup de choses." },
+  { kind: 'long', youtube: 'FxRGnPzMlNE', title: "La Traque de l'Immortel", year: null, genre: "Action", minutes: 114, channel: "Allociné Films Complets",
+    description: "Un agent mourant doit protéger le premier clone humain, porteur du secret de l'immortalité, traqué par des forces prêtes à tout." },
+  { kind: 'long', youtube: 'sxCf7q2oL9o', title: "La Traque du FBI", year: null, genre: "Action", minutes: 76, channel: "Allociné Films Complets",
+    description: "Un détective coriace dirige une équipe d'infiltration d'élite pour faire tomber un réseau criminel violent à Seattle." },
+  { kind: 'long', youtube: '4g1wKn-l2sA', title: "Bulletproof", year: null, genre: "Thriller", minutes: 95, channel: "Allociné Films Complets",
+    description: "Des duels à balles réelles avec gilets pare-balles deviennent un spectacle extrême, qui attire des volontaires prêts à tout pour la gloire." },
+  { kind: 'long', youtube: 'H5JQWgrPJVQ', title: "Une fille à problèmes", year: null, genre: "Thriller", minutes: 87, channel: "Allociné Films Complets",
+    description: "Criblée de dettes et prête à tout pour quitter sa ville, une jeune femme se lance dans le recouvrement et défie un chef de gang impitoyable." },
+  { kind: 'long', youtube: 'gBvbrzv-pKs', title: "Rencontre nocturne", year: null, genre: "Thriller", minutes: 96, channel: "Allociné Films Complets",
+    description: "Un ancien pilote devenu garde du corps accepte une mission illégale en mer, qui déclenche une série d'événements incontrôlables." },
+  { kind: 'long', youtube: 'nbR-88QLygw', title: "La Jumelle perdue", year: null, genre: "Science-fiction", minutes: 99, channel: "Allociné Films Complets",
+    description: "Marquée par un drame, une jeune femme est attirée vers une autre réalité où sa sœur, disparue dans une noyade, semble encore en vie." },
+  { kind: 'long', youtube: 'pt21q_iAVAs', title: "Gangster amateur", year: null, genre: "Comédie", minutes: 89, channel: "Allociné Films Complets",
+    description: "Un coursier entre dans la mafia grâce à un ami. Déçu par leur inaction, il déclenche en secret une guerre sanglante contre un gang rival." },
+  { kind: 'long', youtube: 'eq5dt_A1irQ', title: "Cop vs Mafia", year: null, genre: "Thriller", minutes: 82, channel: "Allociné Films Complets",
+    description: "Un ancien policier se retrouve pris entre plusieurs feux : un gang local, la mafia et ses anciens collègues." },
+  { kind: 'long', youtube: 'S_jjBHbSzLE', title: "Ballet meurtrier", year: 2015, genre: "Thriller", minutes: 86, channel: "M6 Films & Séries",
+    description: "Spécialiste du nettoyage de scènes de crime, Morgan a le don de visualiser ce qui s'y est passé. Elle aide un jeune inspecteur sur une affaire troublante." },
+  { kind: 'long', youtube: 'ys8jqPJtQjU', title: "Diagnostic : délicieux", year: 2016, genre: "Romance", minutes: 84, channel: "M6 Films & Séries",
+    description: "Sur le point d'être promue cheffe de service, Nina doit lancer des cours de cuisine diététique à l'hôpital… avec un chef qui ne lui facilite pas la tâche." },
+  { kind: 'long', youtube: 'B7g01sJQ4Xk', title: "Mon Noël en Alaska", year: 2018, genre: "Romance", minutes: 81, channel: "M6 Films & Séries",
+    description: "Pilote d'avion à Seattle, Zoey hérite d'un ranch en Alaska à quelques jours de Noël. Elle part le vendre… mais rien ne se passe comme prévu." },
+];
+for (const f of longFilms) f.img = `https://i.ytimg.com/vi/${f.youtube}/mqdefault.jpg`;
+for (const f of shortFilms) f.kind = 'court';
+const catalog = [...longFilms, ...shortFilms];
+
 const $ = sel => document.querySelector(sel);
 const el = (tag, props = {}, ...children) => {
   const n = Object.assign(document.createElement(tag), props);
@@ -94,10 +129,15 @@ function card(f) {
   if (f.img) poster.style.setProperty('--img', `url("${f.img}")`);
   const b = el('button', { className: 'movie', type: 'button' },
     poster,
-    el('div', { className: 'movie-info' }, el('strong', {}, f.title), el('small', {}, `${f.year} · ${f.genre} · ${f.minutes} min`)),
+    el('div', { className: 'movie-info' }, el('strong', {}, f.title), el('small', {}, meta(f))),
   );
   b.addEventListener('click', () => showDetail(f));
   return b;
+}
+
+function meta(f) {
+  const dur = f.minutes >= 60 ? `${Math.floor(f.minutes / 60)} h ${String(f.minutes % 60).padStart(2, '0')}` : `${f.minutes} min`;
+  return [f.year, f.genre, dur, f.kind === 'long' ? 'VF' : ''].filter(Boolean).join(' · ');
 }
 
 function normalize(s) {
@@ -107,15 +147,11 @@ function normalize(s) {
 function render(q = '') {
   const query = normalize(q.trim());
   const filtered = catalog.filter(f => normalize(`${f.title} ${f.genre} ${f.year}`).includes(query));
-  if (!filtered.length) {
-    const msg = () => el('p', { className: 'muted empty' }, `Aucun résultat pour « ${q.trim()} ».`);
-    newCards.replaceChildren(msg());
-    popularCards.replaceChildren(msg());
-    return;
-  }
-  newCards.replaceChildren(...filtered.slice(0, 6).map(card));
-  const popular = query ? filtered : filtered.slice(6);
-  popularCards.replaceChildren(...popular.map(card));
+  const msg = () => el('p', { className: 'muted empty' }, `Aucun résultat pour « ${q.trim()} ».`);
+  const longs = filtered.filter(f => f.kind === 'long');
+  const courts = filtered.filter(f => f.kind === 'court');
+  newCards.replaceChildren(...(longs.length ? longs.map(card) : [msg()]));
+  popularCards.replaceChildren(...(courts.length ? courts.map(card) : [msg()]));
 }
 
 function renderGenres() {
@@ -134,18 +170,20 @@ function renderGenres() {
 function showDetail(f) {
   const content = [
     el('h2', { id: 'detailTitle' }, f.title),
-    el('p', { className: 'muted' }, `${f.year} · ${f.genre} · ${f.minutes} min`),
+    el('p', { className: 'muted' }, meta(f)),
     el('p', {}, f.description),
   ];
   if (f.note) content.push(el('p', { className: 'small warn' }, f.note));
-  if (f.src) {
+  if (f.src || f.youtube) {
     const play = el('button', { type: 'button', className: 'btn' }, '▶ Regarder');
-    play.addEventListener('click', () => { $('#detail').close(); playFilm(f.src, f.title); });
+    play.addEventListener('click', () => { $('#detail').close(); playFilm(f); });
     content.push(play);
   } else {
     content.push(el('p', { className: 'muted' }, 'Vidéo bientôt disponible.'));
   }
-  content.push(el('p', { className: 'small muted credit' }, CREDIT));
+  content.push(el('p', { className: 'small muted credit' }, f.channel
+    ? `Diffusé gratuitement et légalement par la chaîne officielle « ${f.channel} » sur YouTube (publicités possibles).`
+    : CREDIT));
   $('#detailContent').replaceChildren(...content);
   $('#detail').showModal();
 }
@@ -158,10 +196,11 @@ renderGenres();
 // Film à l'affiche (le plus récent) en haut de la page.
 const featured = catalog[0];
 $('#heroTitle').textContent = featured.title;
-$('#heroMeta').textContent = `${featured.genre} · ${featured.year} · ${featured.minutes} min`;
+$('#heroMeta').textContent = meta(featured);
 $('#heroText').textContent = featured.description;
-if (featured.img) $('#affiche').style.setProperty('--hero-img', `url("${featured.img}")`);
-$('#heroPlay').addEventListener('click', () => playFilm(featured.src, featured.title));
+const heroImg = featured.youtube ? `https://i.ytimg.com/vi/${featured.youtube}/maxresdefault.jpg` : featured.img;
+if (heroImg) $('#affiche').style.setProperty('--hero-img', `url("${heroImg}")`);
+$('#heroPlay').addEventListener('click', () => playFilm(featured));
 $('#heroInfo').addEventListener('click', () => showDetail(featured));
 
 /* =========================================================================
@@ -171,11 +210,54 @@ const video = $('#licensedVideo');
 const videoStatus = $('#videoStatus');
 let localVideoURL = null;
 
-function playFilm(src, title) {
-  video.src = src;
-  $('#nowPlaying').textContent = `Lecture : ${title}`;
+// Lecteur YouTube (films publiés par les ayants droit) : chargé seulement si besoin.
+let ytPlayer = null;
+let ytReady = null;
+function loadYouTube() {
+  if (!ytReady) {
+    ytReady = new Promise((resolve, reject) => {
+      window.onYouTubeIframeAPIReady = resolve;
+      const s = document.createElement('script');
+      s.src = 'https://www.youtube.com/iframe_api';
+      s.onerror = () => { ytReady = null; reject(new Error('Le lecteur YouTube n\'a pas pu être chargé.')); };
+      document.head.append(s);
+    });
+  }
+  return ytReady;
+}
+
+async function playYouTube(id) {
+  await loadYouTube();
+  if (ytPlayer) { ytPlayer.loadVideoById(id); return; }
+  ytPlayer = new YT.Player('ytPlayer', {
+    videoId: id,
+    host: 'https://www.youtube-nocookie.com',
+    playerVars: { autoplay: 1, rel: 0, playsinline: 1, hl: 'fr', cc_lang_pref: 'fr' },
+    // Règle validée : la fenêtre de soutien s'ouvre uniquement à la fin du film.
+    events: { onStateChange: e => { if (e.data === YT.PlayerState.ENDED) onFilmEnded(); } },
+  });
+}
+
+function showNativePlayer() {
+  if (ytPlayer?.pauseVideo) ytPlayer.pauseVideo();
+  $('#ytWrap').hidden = true;
+  video.hidden = false;
+}
+
+function playFilm(f) {
+  $('#nowPlaying').textContent = `Lecture : ${f.title}`;
   $('#lecteur').scrollIntoView({ behavior: 'smooth' });
-  video.play().catch(() => {});
+  if (f.youtube) {
+    video.pause();
+    video.hidden = true;
+    $('#ytWrap').hidden = false;
+    videoStatus.textContent = 'La fenêtre de soutien s\'affiche seulement lorsque le film se termine.';
+    playYouTube(f.youtube).catch(e => { videoStatus.textContent = e.message; });
+  } else {
+    showNativePlayer();
+    video.src = f.src;
+    video.play().catch(() => {});
+  }
 }
 
 $('#localVideoFile').addEventListener('change', event => {
@@ -185,6 +267,7 @@ $('#localVideoFile').addEventListener('change', event => {
     videoStatus.textContent = 'Choisissez un fichier vidéo valide.';
     return;
   }
+  showNativePlayer();
   if (localVideoURL) URL.revokeObjectURL(localVideoURL);
   localVideoURL = URL.createObjectURL(file);
   video.src = localVideoURL;
