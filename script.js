@@ -332,8 +332,10 @@ video.addEventListener('ended', onFilmEnded);
 // Mode sans serveur (hébergement gratuit GitHub Pages) : pas de compteur ni de codes VIP,
 // le bouton de don ouvre simplement la page PayPal. Mettre false sur un hébergement avec PHP (/api).
 const STATIC_MODE = true;
-// Lien de don PayPal, ex. 'https://paypal.me/VotreNom'. Laisser vide tant qu'il n'existe pas.
-const PAYPAL_ME_URL = '';
+// Lien de don PayPal.me (le montant choisi est ajouté automatiquement).
+const PAYPAL_ME_URL = 'https://www.paypal.me/meranjacky';
+const STATIC_MIN = 1;
+const STATIC_MAX = 500;
 
 const API = 'api/';
 const VIP_KEY = 'cinelibre_vip';
@@ -471,10 +473,12 @@ document.querySelectorAll('.amount').forEach(btn => btn.addEventListener('click'
   document.querySelectorAll('.amount').forEach(b => b.classList.toggle('active', b === btn));
   $('#customAmount').value = '';
   state.amount = btn.dataset.amount;
+  $('#donateMessage').textContent = '';
 }));
 $('#customAmount').addEventListener('input', e => {
   document.querySelectorAll('.amount').forEach(b => b.classList.remove('active'));
   state.amount = e.target.value.replace(',', '.').trim();
+  $('#donateMessage').textContent = '';
 });
 
 function validAmount() {
@@ -503,12 +507,27 @@ function loadPayPal(clientId) {
 
 $('#donateButton').addEventListener('click', async () => {
   if (STATIC_MODE) {
-    const msg = $('#staticMessage');
-    if (PAYPAL_ME_URL) {
-      window.open(PAYPAL_ME_URL, '_blank', 'noopener');
-      msg.textContent = 'Merci beaucoup ! La page PayPal s\'est ouverte dans un nouvel onglet.';
-    } else {
-      msg.textContent = 'Les dons seront bientôt disponibles. Merci de votre soutien, bon film\u00a0!';
+    if (!PAYPAL_ME_URL) {
+      $('#staticMessage').textContent = 'Les dons seront bientôt disponibles. Merci de votre soutien, bon film\u00a0!';
+      return;
+    }
+    // Choix du montant, puis ouverture de la page PayPal.me avec ce montant.
+    $('#donateArea').hidden = false;
+    $('#vipArea').hidden = true;
+    $('#donateButton').hidden = true;
+    if (!$('#paypalMeButton')) {
+      const btn = el('button', { type: 'button', className: 'btn paypal-me', id: 'paypalMeButton' }, 'Donner avec PayPal');
+      btn.addEventListener('click', () => {
+        const n = Number(state.amount);
+        const msg = $('#donateMessage');
+        if (!/^\d+(\.\d{1,2})?$/.test(state.amount) || n < STATIC_MIN || n > STATIC_MAX) {
+          msg.textContent = `Indiquez un montant entre ${euro(STATIC_MIN)} et ${euro(STATIC_MAX)}.`;
+          return;
+        }
+        window.open(`${PAYPAL_ME_URL}/${n.toFixed(2)}EUR`, '_blank', 'noopener');
+        msg.textContent = 'Merci beaucoup ! La page PayPal s\'est ouverte dans un nouvel onglet pour finaliser votre don.';
+      });
+      $('#paypalButtons').replaceChildren(btn);
     }
     return;
   }
