@@ -146,7 +146,7 @@ const longFilms = [
   { kind: 'long', youtube: 'rriQE42Upy8', title: "Chasse au monstre", year: null, genre: "Fantastique", minutes: 87, channel: "Allociné Films Complets",
     description: "Un capitaine obsédé traque l'immense créature marine qui l'a mutilé, dans une chasse où la folie devient son pire ennemi." },
 ];
-for (const f of longFilms) f.img = `https://i.ytimg.com/vi/${f.youtube}/mqdefault.jpg`;
+for (const f of longFilms) { f.img = `https://i.ytimg.com/vi/${f.youtube}/mqdefault.jpg`; f.tone = '#1b2a33'; }
 for (const f of shortFilms) f.kind = 'court';
 const catalog = [...longFilms, ...shortFilms];
 const GENRE_ORDER = ['Horreur', 'Science-fiction', 'Fantastique', 'Action', 'Thriller', 'Western', 'Comédie', 'Romance'];
