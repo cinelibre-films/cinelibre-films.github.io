@@ -281,8 +281,6 @@ async function playYouTube(id) {
     videoId: id,
     host: 'https://www.youtube-nocookie.com',
     playerVars: { autoplay: 1, rel: 0, playsinline: 1, hl: 'fr', cc_lang_pref: 'fr' },
-    // Règle validée : la fenêtre de soutien s'ouvre uniquement à la fin du film.
-    events: { onStateChange: e => { if (e.data === YT.PlayerState.ENDED) onFilmEnded(); } },
   });
 }
 
@@ -293,13 +291,14 @@ function showNativePlayer() {
 }
 
 function playFilm(f) {
+  armSupport();
   $('#nowPlaying').textContent = `Lecture : ${f.title}`;
   $('#lecteur').scrollIntoView({ behavior: 'smooth' });
   if (f.youtube) {
     video.pause();
     video.hidden = true;
     $('#ytWrap').hidden = false;
-    videoStatus.textContent = 'La fenêtre de soutien s\'affiche seulement lorsque le film se termine.';
+    videoStatus.textContent = 'Une fenêtre de soutien facultative s\'affiche une seule fois, entre 15 et 20 minutes de film.';
     playYouTube(f.youtube).catch(e => { videoStatus.textContent = e.message; });
   } else {
     showNativePlayer();
@@ -316,15 +315,35 @@ $('#localVideoFile').addEventListener('change', event => {
     return;
   }
   showNativePlayer();
+  armSupport();
   if (localVideoURL) URL.revokeObjectURL(localVideoURL);
   localVideoURL = URL.createObjectURL(file);
   video.src = localVideoURL;
   $('#nowPlaying').textContent = `Vidéo locale : ${file.name}`;
-  videoStatus.textContent = 'Vidéo prête. La fenêtre de soutien apparaît seulement à la fin du film.';
+  videoStatus.textContent = 'Vidéo prête. Une fenêtre de soutien facultative s\'affiche une seule fois, entre 15 et 20 minutes de film.';
 });
 
-// Règle validée : la fenêtre s'ouvre UNIQUEMENT quand le film se termine naturellement.
-video.addEventListener('ended', onFilmEnded);
+// Règle : la fenêtre de soutien s'ouvre une seule fois par film, à un moment tiré au hasard
+// entre 15 et 20 minutes de visionnage. Le film est mis en pause puis reprend à la fermeture.
+const SUPPORT_MIN_S = 15 * 60;
+const SUPPORT_MAX_S = 20 * 60;
+let supportAt = SUPPORT_MIN_S;
+let supportShown = false;
+let pausedBy = null;
+function armSupport() {
+  supportShown = false;
+  supportAt = SUPPORT_MIN_S + Math.random() * (SUPPORT_MAX_S - SUPPORT_MIN_S);
+}
+function checkSupport(seconds, player) {
+  if (!supportShown && seconds >= supportAt) {
+    supportShown = true;
+    onSupportMoment(player);
+  }
+}
+video.addEventListener('timeupdate', () => { if (!video.paused) checkSupport(video.currentTime, 'video'); });
+setInterval(() => {
+  if (ytPlayer?.getPlayerState?.() === 1) checkSupport(ytPlayer.getCurrentTime(), 'yt');
+}, 2000);
 
 /* =========================================================================
    Dons, objectif hebdomadaire et codes VIP (vérifiés par le serveur /api)
@@ -392,13 +411,22 @@ function paintGoal() {
     : '';
 }
 
-async function onFilmEnded() {
+async function onSupportMoment(player) {
   if (state.vip || supportDialog.open) return;
   await refreshStatus();
   if (state.status?.reached) return; // objectif atteint : pas de fenêtre avant la nouvelle semaine
+  if (player === 'yt') ytPlayer?.pauseVideo?.(); else video.pause();
+  pausedBy = player;
   resetSupportDialog();
   supportDialog.showModal();
 }
+
+// À la fermeture de la fenêtre (croix, Échap ou « Continuer gratuitement »), le film reprend.
+supportDialog.addEventListener('close', () => {
+  if (pausedBy === 'yt') ytPlayer?.playVideo?.();
+  else if (pausedBy === 'video') video.play().catch(() => {});
+  pausedBy = null;
+});
 
 function resetSupportDialog() {
   $('#donateArea').hidden = true;
