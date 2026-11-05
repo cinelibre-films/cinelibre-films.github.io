@@ -4,3 +4,11 @@
 .amounts{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin:8px 0 14px}.amount{min-width:64px;padding:11px 14px;border-radius:10px;border:1px solid #52616b;background:#1b242b;color:#fff;font:inherit;font-weight:800;cursor:pointer}.amount.active{background:var(--green);color:#071006;border-color:var(--green)}
 #paypalButtons{margin-top:12px;min-height:10px}.thanks{font-size:20px;font-weight:800}.vip-code{display:flex;gap:10px;align-items:center;justify-content:center;flex-wrap:wrap}.vip-code code{font-size:20px;background:#0d141a;border:1px dashed var(--green);padding:10px 14px;border-radius:10px;letter-spacing:.06em}.small-btn{padding:9px 14px}
 #localVideoFile{width:auto;border-radius:10px}#licensedVideo{display:block;width:min(900px,100%);max-height:520px;margin-top:16px;background:#000;border-radius:14px}.empty{grid-column:1/-1}#vipBadge{color:var(--green);font-size:14px;margin:0 0 10px}footer p{margin:0}
+.hero{background:linear-gradient(90deg,#050a0e 20%,rgba(5,10,14,.82) 50%,rgba(5,10,14,.25)),var(--hero-img,none) right center/cover no-repeat,radial-gradient(ellipse at 80% 35%,#275a46,#09151b 65%)}
+.cards{grid-template-columns:repeat(4,minmax(0,1fr))}
+.poster{position:relative;aspect-ratio:16/9;align-items:flex-end;justify-content:flex-start;text-align:left;padding:12px 14px;background:linear-gradient(180deg,transparent 35%,rgba(0,0,0,.85)),var(--img,none) center/cover no-repeat,linear-gradient(155deg,var(--tone),#071015);font-size:clamp(15px,1.5vw,20px)}
+.play-badge{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%) scale(.8);width:52px;height:52px;border-radius:50%;background:rgba(123,255,26,.92);color:#071006;display:grid;place-items:center;font-size:20px;opacity:0;transition:opacity .15s,transform .15s;text-shadow:none}
+.movie:hover .play-badge,.movie:focus-visible .play-badge{opacity:1;transform:translate(-50%,-50%) scale(1)}
+.warn{color:#fbbf24}.credit{margin-top:14px}#apropos a{color:var(--green)}
+@media(max-width:1100px){.cards{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media(max-width:650px){.cards{grid-template-columns:repeat(2,minmax(0,1fr))}.hero{background:linear-gradient(0deg,#050a0e 25%,rgba(5,10,14,.7)),var(--hero-img,none) center/cover no-repeat,#09151b}}
