@@ -1,20 +1,80 @@
 'use strict';
 
 /* =========================================================================
-   Catalogue
-   Ajouter UNIQUEMENT des œuvres dont vous détenez les droits de diffusion.
-   "src" = adresse de la vidéo autorisée (fichier MP4 hébergé, CDN, etc.).
-   Sans "src", la fiche s'affiche mais aucune lecture n'est proposée.
+   Catalogue : films d'animation du Blender Studio (studio.blender.org),
+   sous licence Creative Commons BY : diffusion gratuite autorisée en citant l'auteur.
+   N'ajouter QUE des œuvres dont la diffusion est autorisée.
+   "src" = adresse de la vidéo, "img" = image d'affiche (facultative).
    ========================================================================= */
+const CREDIT = '© Blender Foundation · studio.blender.org · licence Creative Commons BY';
 const catalog = [
-  { title: 'La Dernière Étoile', year: 2026, genre: 'Science-fiction', tone: '#275b9e', description: 'Une expédition découvre un signal mystérieux aux confins de la galaxie.', src: '' },
-  { title: 'Océan Secret', year: 2026, genre: 'Aventure', tone: '#127b99', description: 'Un voyage spectaculaire au cœur des mers inconnues.', src: '' },
-  { title: 'La Forêt des Rêves', year: 2025, genre: 'Animation', tone: '#5a3195', description: 'Une aventure familiale dans une forêt enchantée.', src: '' },
-  { title: 'Minuit à Paris', year: 2025, genre: 'Mystère', tone: '#784b87', description: 'Une enquête nocturne pleine de rebondissements.', src: '' },
-  { title: 'Le Royaume Perdu', year: 2026, genre: 'Fantastique', tone: '#92701c', description: 'Une quête épique dans un monde oublié.', src: '' },
-  { title: 'Horizons', year: 2025, genre: 'Drame', tone: '#b15a2c', description: 'Deux voyageurs se rencontrent au bout du monde.', src: '' },
-  { title: 'Mission Aurore', year: 2024, genre: 'Action', tone: '#7a2323', description: 'Une équipe doit empêcher une catastrophe.', src: '' },
-  { title: 'Les Explorateurs', year: 2024, genre: 'Documentaire', tone: '#256b51', description: 'La beauté des territoires encore méconnus.', src: '' },
+  {
+    title: "Wing It!", year: 2023, genre: "Comédie", minutes: 4, tone: '#c2410c',
+    description: "Un chat inventeur et son compagnon canin bricolent une fusée dans leur grange. Le décollage ne va pas du tout se passer comme prévu.",
+    img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/3/38/WING_IT%21_-_Blender_Open_Movie-full_movie.webm/960px-seek%3D95-WING_IT%21_-_Blender_Open_Movie-full_movie.webm.jpg',
+    src: 'https://upload.wikimedia.org/wikipedia/commons/3/38/WING_IT%21_-_Blender_Open_Movie-full_movie.webm',
+  },
+  {
+    title: "Charge", year: 2022, genre: "Action", minutes: 4, tone: '#1e3a8a',
+    description: "Dans un monde glacé où l'énergie est rationnée, un vieil homme tente un coup risqué : en voler dans une centrale gardée par un robot redoutable.",
+    img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/7/7a/Charge_-_Blender_Open_Movie-full_movie.webm/960px-seek%3D70-Charge_-_Blender_Open_Movie-full_movie.webm.jpg',
+    src: 'https://upload.wikimedia.org/wikipedia/commons/transcoded/7/7a/Charge_-_Blender_Open_Movie-full_movie.webm/Charge_-_Blender_Open_Movie-full_movie.webm.1080p.vp9.webm',
+  },
+  {
+    title: "Sprite Fright", year: 2021, genre: "Horreur", minutes: 10, tone: '#14532d',
+    description: "Des ados venus faire la fête en forêt croisent de mignons petits êtres-champignons… beaucoup moins gentils qu'ils n'en ont l'air.",
+    note: "Déconseillé aux moins de 13 ans.",
+    img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/7/76/Sprite_Fright_-_Blender_Open_Movie-full_movie.webm/960px-seek%3D150-Sprite_Fright_-_Blender_Open_Movie-full_movie.webm.jpg',
+    src: 'https://archive.org/download/sprite-fright/Sprite%20Fright%20-%20Open%20Movie%20by%20Blender%20Studio-804p.mp4',
+  },
+  {
+    title: "Coffee Run", year: 2020, genre: "Drame", minutes: 3, tone: '#9a3412',
+    description: "Dopée à la caféine, une jeune femme court à travers les souvenirs doux-amers de son histoire d'amour passée.",
+    img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/3/3f/Coffee_Run_-_Blender_Open_Movie-full_movie.webm/960px-seek%3D60-Coffee_Run_-_Blender_Open_Movie-full_movie.webm.jpg',
+    src: 'https://archive.org/download/coffee-run/Coffee%20Run.mp4',
+  },
+  {
+    title: "Spring", year: 2019, genre: "Fantastique", minutes: 8, tone: '#155e75',
+    description: "Une jeune bergère et son chien affrontent d'anciens esprits pour que le cycle de la vie puisse continuer.",
+    img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a5/Spring_-_Blender_Open_Movie.webm/960px-seek%3D200-Spring_-_Blender_Open_Movie.webm.jpg',
+    src: 'https://archive.org/download/spring_blenderopenmovie/Spring%20-%20Blender%20Open%20Movie%20-%20YouTube.mp4',
+  },
+  {
+    title: "Agent 327 : Opération Barbershop", year: 2017, genre: "Espionnage", minutes: 4, tone: '#7f1d1d',
+    description: "L'agent secret 327 enquête incognito dans un salon de coiffure… et tombe nez à nez avec un ennemi redoutable.",
+    img: '',
+    src: 'https://archive.org/download/agent327operationbarbershop/agent327-1080.mp4',
+  },
+  {
+    title: "Caminandes : Llamigos", year: 2016, genre: "Comédie", minutes: 3, tone: '#0369a1',
+    description: "En plein hiver en Patagonie, le lama Koro doit défendre ses baies contre un pingouin très gourmand.",
+    img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/ab/Caminandes_3_-_Llamigos_-_Blender_Animated_Short.webm/960px-seek%3D40-Caminandes_3_-_Llamigos_-_Blender_Animated_Short.webm.jpg',
+    src: 'https://archive.org/download/CaminandesLlamigos/Caminandes_%20Llamigos-1080p.mp4',
+  },
+  {
+    title: "Cosmos Laundromat", year: 2015, genre: "Science-fiction", minutes: 12, tone: '#4c1d95',
+    description: "Sur une île désolée, Franck, un mouton désabusé, rencontre un mystérieux vendeur qui lui promet une vie toute neuve.",
+    img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/3/36/Cosmos_Laundromat_-_First_Cycle_-_Official_Blender_Foundation_release.webm/960px-seek%3D300-Cosmos_Laundromat_-_First_Cycle_-_Official_Blender_Foundation_release.webm.jpg',
+    src: 'https://archive.org/download/CosmosLaundromatFirstCycle/Cosmos%20Laundromat%20-%20First%20Cycle%20%281080p%29.mp4',
+  },
+  {
+    title: "Tears of Steel", year: 2012, genre: "Science-fiction", minutes: 12, tone: '#334155',
+    description: "À Amsterdam, une équipe de scientifiques tente de sauver le monde d'une invasion de robots… en rejouant une vieille rupture amoureuse.",
+    img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/c/cb/Tears_of_Steel_1080p.webm/960px-seek%3D200-Tears_of_Steel_1080p.webm.jpg',
+    src: 'https://archive.org/download/Tears-of-Steel/tears_of_steel_720p.mp4',
+  },
+  {
+    title: "Sintel", year: 2010, genre: "Aventure", minutes: 15, tone: '#78350f',
+    description: "Une jeune guerrière parcourt un monde hostile à la recherche du bébé dragon qu'on lui a enlevé.",
+    img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/f/f1/Sintel_movie_4K.webm/960px-seek%3D300-Sintel_movie_4K.webm.jpg',
+    src: 'https://archive.org/download/Sintel/sintel-2048-stereo.mp4',
+  },
+  {
+    title: "Big Buck Bunny", year: 2008, genre: "Comédie", minutes: 10, tone: '#3f6212',
+    description: "Un gros lapin au grand cœur décide de donner une bonne leçon à trois rongeurs qui lui ont gâché la journée.",
+    img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/c/c0/Big_Buck_Bunny_4K.webm/960px-seek%3D120-Big_Buck_Bunny_4K.webm.jpg',
+    src: 'https://archive.org/download/BigBuckBunny_124/Content/big_buck_bunny_720p_surround.mp4',
+  },
 ];
 
 const $ = sel => document.querySelector(sel);
@@ -29,11 +89,12 @@ const popularCards = $('#popularCards');
 const searchInput = $('#search');
 
 function card(f) {
-  const poster = el('div', { className: 'poster' }, f.title);
+  const poster = el('div', { className: 'poster' }, el('span', { className: 'play-badge' }, '▶'), el('span', { className: 'poster-title' }, f.title));
   poster.style.setProperty('--tone', f.tone);
+  if (f.img) poster.style.setProperty('--img', `url("${f.img}")`);
   const b = el('button', { className: 'movie', type: 'button' },
     poster,
-    el('div', { className: 'movie-info' }, el('strong', {}, f.title), el('small', {}, `${f.year} · ${f.genre}`)),
+    el('div', { className: 'movie-info' }, el('strong', {}, f.title), el('small', {}, `${f.year} · ${f.genre} · ${f.minutes} min`)),
   );
   b.addEventListener('click', () => showDetail(f));
   return b;
@@ -53,7 +114,7 @@ function render(q = '') {
     return;
   }
   newCards.replaceChildren(...filtered.slice(0, 6).map(card));
-  const popular = query ? filtered : filtered.slice(2);
+  const popular = query ? filtered : filtered.slice(6);
   popularCards.replaceChildren(...popular.map(card));
 }
 
@@ -73,9 +134,10 @@ function renderGenres() {
 function showDetail(f) {
   const content = [
     el('h2', { id: 'detailTitle' }, f.title),
-    el('p', {}, `${f.year} · ${f.genre}`),
+    el('p', { className: 'muted' }, `${f.year} · ${f.genre} · ${f.minutes} min`),
     el('p', {}, f.description),
   ];
+  if (f.note) content.push(el('p', { className: 'small warn' }, f.note));
   if (f.src) {
     const play = el('button', { type: 'button', className: 'btn' }, '▶ Regarder');
     play.addEventListener('click', () => { $('#detail').close(); playFilm(f.src, f.title); });
@@ -83,6 +145,7 @@ function showDetail(f) {
   } else {
     content.push(el('p', { className: 'muted' }, 'Vidéo bientôt disponible.'));
   }
+  content.push(el('p', { className: 'small muted credit' }, CREDIT));
   $('#detailContent').replaceChildren(...content);
   $('#detail').showModal();
 }
@@ -91,6 +154,15 @@ $('#close').addEventListener('click', () => $('#detail').close());
 searchInput.addEventListener('input', e => render(e.target.value));
 render();
 renderGenres();
+
+// Film à l'affiche (le plus récent) en haut de la page.
+const featured = catalog[0];
+$('#heroTitle').textContent = featured.title;
+$('#heroMeta').textContent = `${featured.genre} · ${featured.year} · ${featured.minutes} min`;
+$('#heroText').textContent = featured.description;
+if (featured.img) $('#affiche').style.setProperty('--hero-img', `url("${featured.img}")`);
+$('#heroPlay').addEventListener('click', () => playFilm(featured.src, featured.title));
+$('#heroInfo').addEventListener('click', () => showDetail(featured));
 
 /* =========================================================================
    Lecteur
