@@ -3,13 +3,27 @@
 Site de films et séries gratuits (HTML/CSS/JS) avec dons volontaires PayPal, objectif hebdomadaire et codes VIP, prêt pour Hostinger (PHP + MySQL).
 
 ## Règle de la fenêtre de dons
-- Aucune fenêtre au démarrage ni pendant la lecture.
-- La fenêtre s'ouvre **seulement quand un film se termine** (événement `ended`).
+- Aucune fenêtre au démarrage du site ni au début du film.
+- La fenêtre s'ouvre **une seule fois par film, entre 15 et 20 minutes de visionnage** (moment tiré au hasard). Le film se met en pause et reprend à la fermeture.
 - Le visiteur peut toujours la fermer ou cliquer « Continuer gratuitement ».
 - Objectif : **160 € par semaine**, remis à zéro le **lundi 00:00 heure de Paris** (heure d'été/hiver gérée).
 - Objectif atteint → plus de fenêtre jusqu'au lundi suivant.
 - Don ≥ 5 € → un **code VIP** est offert (30 jours sans fenêtre). Remboursement → code annulé.
 - Les montants affichés viennent uniquement de la base de données. Si le serveur ne répond pas, le site affiche « — », jamais un montant inventé.
+
+## Mettre à jour la cagnotte (version gratuite GitHub Pages)
+Le site ne voit pas tout seul les dons PayPal. Après avoir reçu des dons, modifier le fichier `cagnotte.json` sur GitHub (icône crayon, puis « Valider les modifications ») :
+```
+{
+  "objectif": 160,
+  "lundi": "2026-11-02",
+  "montant": 45
+}
+```
+- `montant` : total reçu cette semaine, en euros.
+- `lundi` : date du lundi de la semaine en cours (AAAA-MM-JJ).
+- Quand `montant` atteint `objectif`, la fenêtre de don ne s'affiche plus jusqu'au lundi suivant.
+- Le lundi, la cagnotte repart automatiquement à 0 € : il suffit de mettre la nouvelle date de lundi en même temps que le nouveau montant.
 
 ## Structure
 ```
