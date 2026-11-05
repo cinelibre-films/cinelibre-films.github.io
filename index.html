@@ -25,15 +25,15 @@
   <section class="hero" id="affiche">
     <div class="hero-inner">
       <span class="tag">À L'AFFICHE</span>
-      <h1>Découvrez CinéLibre</h1>
-      <p class="genre">Action · Aventure · Science-fiction</p>
-      <p>Une interface cinéma moderne pour découvrir des œuvres et regarder les vidéos dont la diffusion est autorisée.</p>
-      <div class="actions"><a class="btn" href="#nouveautes">▶ Explorer le catalogue</a><a class="btn secondary" href="#apropos">ⓘ Plus d'infos</a></div>
+      <h1 id="heroTitle">Découvrez CinéLibre</h1>
+      <p class="genre" id="heroMeta">Animation · Comédie · Aventure</p>
+      <p id="heroText">Des films d'animation récents, à regarder gratuitement et légalement.</p>
+      <div class="actions"><button class="btn" id="heroPlay" type="button">▶ Regarder</button><button class="btn secondary" id="heroInfo" type="button">ⓘ Plus d'infos</button></div>
     </div>
   </section>
 
   <section id="nouveautes"><h2>Nouveautés</h2><div class="cards" id="newCards"></div></section>
-  <section id="films"><h2>Films populaires</h2><div class="cards" id="popularCards"></div></section>
+  <section id="films"><h2>Tous les films</h2><div class="cards" id="popularCards"></div></section>
   <section id="series"><h2>Séries</h2><p class="muted">Les séries autorisées seront ajoutées prochainement.</p></section>
   <section id="genres"><h2>Genres</h2><div class="chips" id="genreChips"></div></section>
 
@@ -48,6 +48,7 @@
   <section id="apropos">
     <h2>À propos</h2>
     <p class="muted">CinéLibre est gratuit. Les dons sont facultatifs et servent uniquement à couvrir les frais du site. Seules des œuvres dont la diffusion est autorisée sont proposées.</p>
+    <p class="muted small">Films : © Blender Foundation · <a href="https://studio.blender.org/films/" target="_blank" rel="noopener">studio.blender.org</a> · licence Creative Commons BY. Vidéos hébergées par Internet Archive et Wikimedia Commons.</p>
   </section>
 </main>
 
