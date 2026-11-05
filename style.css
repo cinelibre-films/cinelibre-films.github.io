@@ -16,3 +16,4 @@
 .platforms{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}.platform{display:block;background:var(--panel);border:1px solid #1f2b32;border-radius:13px;padding:16px;color:#fff;text-decoration:none;transition:border-color .15s}.platform:hover{border-color:var(--green)}.platform strong{display:block;font-size:17px}.platform span{display:block;color:var(--muted);font-size:13px;margin-top:6px}
 @media(max-width:650px){.platforms{grid-template-columns:1fr}}
 .genre-row{margin-bottom:26px}.genre-row h3{font-size:20px;margin:0 0 12px;color:#e5e9eb}
+.paypal-me{width:100%;margin-top:4px}
