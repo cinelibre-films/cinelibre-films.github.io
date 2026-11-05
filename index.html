@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>CinéLibre — Films & séries</title>
+<meta name="description" content="CinéLibre : films et séries à regarder gratuitement, dont la diffusion est autorisée.">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header class="topbar">
+  <a class="brand" href="#accueil"><span class="clap">▣</span><span>Ciné<span class="green">Libre</span><small>Films & Séries en Streaming Gratuit</small></span></a>
+  <nav aria-label="Navigation">
+    <a class="active" href="#accueil">⌂ Accueil</a>
+    <a href="#films">🎬 Films</a>
+    <a href="#series">▣ Séries</a>
+    <a href="#affiche">☆ À l'affiche</a>
+    <a href="#nouveautes">♨ Nouveautés</a>
+    <a href="#genres">▦ Genres</a>
+  </nav>
+  <input id="search" type="search" placeholder="Rechercher un film, une série…" aria-label="Rechercher">
+</header>
+
+<main id="accueil">
+  <section class="hero" id="affiche">
+    <div class="hero-inner">
+      <span class="tag">À L'AFFICHE</span>
+      <h1>Découvrez CinéLibre</h1>
+      <p class="genre">Action · Aventure · Science-fiction</p>
+      <p>Une interface cinéma moderne pour découvrir des œuvres et regarder les vidéos dont la diffusion est autorisée.</p>
+      <div class="actions"><a class="btn" href="#nouveautes">▶ Explorer le catalogue</a><a class="btn secondary" href="#apropos">ⓘ Plus d'infos</a></div>
+    </div>
+  </section>
+
+  <section id="nouveautes"><h2>Nouveautés</h2><div class="cards" id="newCards"></div></section>
+  <section id="films"><h2>Films populaires</h2><div class="cards" id="popularCards"></div></section>
+  <section id="series"><h2>Séries</h2><p class="muted">Les séries autorisées seront ajoutées prochainement.</p></section>
+  <section id="genres"><h2>Genres</h2><div class="chips" id="genreChips"></div></section>
+
+  <section id="lecteur">
+    <h2>Lecteur</h2>
+    <p class="muted" id="nowPlaying">Choisissez un film du catalogue, ou testez avec une vidéo de votre appareil (elle n'est pas envoyée au site).</p>
+    <input id="localVideoFile" type="file" accept="video/*" aria-label="Choisir une vidéo locale">
+    <video id="licensedVideo" controls playsinline preload="metadata"></video>
+    <p id="videoStatus" class="muted" role="status">La fenêtre de soutien s'affiche seulement lorsqu'un film se termine.</p>
+  </section>
+
+  <section id="apropos">
+    <h2>À propos</h2>
+    <p class="muted">CinéLibre est gratuit. Les dons sont facultatifs et servent uniquement à couvrir les frais du site. Seules des œuvres dont la diffusion est autorisée sont proposées.</p>
+  </section>
+</main>
+
+<dialog id="detail" aria-labelledby="detailTitle">
+  <button class="close" id="close" aria-label="Fermer">×</button>
+  <div id="detailContent"></div>
+</dialog>
+
+<!-- Fenêtre de soutien : uniquement à la fin d'un film, toujours fermable, dons facultatifs. -->
+<dialog id="supportDialog" aria-labelledby="supportTitle">
+  <div class="support-box">
+    <button class="close" id="closeSupport" aria-label="Fermer">×</button>
+    <h2 id="supportTitle">❤️ Aidez CinéLibre à rester gratuit</h2>
+    <p>Un don facultatif aide à financer les frais du site. Vous pouvez continuer à regarder sans payer.</p>
+
+    <div id="goalBox">
+      <p class="goal"><strong id="donationTotal">—</strong> récoltés sur <strong id="donationGoal">160 €</strong></p>
+      <progress id="donationProgress" max="160" value="0"></progress>
+      <p id="goalMessage" class="small">Objectif de la semaine, remis à zéro chaque lundi.</p>
+    </div>
+
+    <div class="support-actions">
+      <button id="donateButton" class="btn" type="button">Faire un don volontaire</button>
+      <button id="vipButton" class="btn secondary" type="button">🔑 J'ai un code VIP</button>
+    </div>
+
+    <div id="donateArea" hidden>
+      <p class="small">Choisissez un montant :</p>
+      <div class="amounts" role="group" aria-label="Montant du don">
+        <button type="button" class="amount" data-amount="2">2 €</button>
+        <button type="button" class="amount active" data-amount="5">5 €</button>
+        <button type="button" class="amount" data-amount="10">10 €</button>
+        <button type="button" class="amount" data-amount="20">20 €</button>
+      </div>
+      <label class="small" for="customAmount">Autre montant (€)</label>
+      <input id="customAmount" class="field" inputmode="decimal" placeholder="ex. 7,50" autocomplete="off">
+      <p id="vipHint" class="small muted"></p>
+      <div id="paypalButtons"></div>
+      <p id="donateMessage" class="small" role="status"></p>
+    </div>
+
+    <div id="thanksArea" hidden>
+      <p class="thanks">Merci beaucoup pour votre don ! 🎉</p>
+      <div id="vipGift" hidden>
+        <p class="small">Voici votre code VIP. Il est déjà activé sur cet appareil ; notez-le pour l'utiliser ailleurs :</p>
+        <p class="vip-code"><code id="vipGiftCode"></code> <button type="button" id="copyVip" class="btn secondary small-btn">Copier</button></p>
+        <p class="small muted" id="vipGiftExpiry"></p>
+      </div>
+    </div>
+
+    <div id="vipArea" hidden>
+      <label for="vipCode">Votre code VIP</label>
+      <input id="vipCode" class="field" autocomplete="off" placeholder="CINE-XXXX-XXXX-XXXX">
+      <button id="applyVip" class="btn" type="button">Valider</button>
+      <p id="vipMessage" class="small" role="status"></p>
+    </div>
+
+    <button id="continueFree" class="btn secondary" type="button">Continuer gratuitement</button>
+  </div>
+</dialog>
+
+<footer>
+  <p id="vipBadge" hidden></p>
+  © 2026 CinéLibre · Dons facultatifs via PayPal · Regarder reste gratuit
+</footer>
+<script src="script.js"></script>
+</body>
+</html>
