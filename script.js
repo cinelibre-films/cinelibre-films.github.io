@@ -126,6 +126,12 @@ video.addEventListener('ended', onFilmEnded);
 /* =========================================================================
    Dons, objectif hebdomadaire et codes VIP (vérifiés par le serveur /api)
    ========================================================================= */
+// Mode sans serveur (hébergement gratuit GitHub Pages) : pas de compteur ni de codes VIP,
+// le bouton de don ouvre simplement la page PayPal. Mettre false sur un hébergement avec PHP (/api).
+const STATIC_MODE = true;
+// Lien de don PayPal, ex. 'https://paypal.me/VotreNom'. Laisser vide tant qu'il n'existe pas.
+const PAYPAL_ME_URL = '';
+
 const API = 'api/';
 const VIP_KEY = 'cinelibre_vip';
 const supportDialog = $('#supportDialog');
@@ -150,6 +156,7 @@ async function api(path, body) {
 }
 
 async function refreshStatus() {
+  if (STATIC_MODE) { state.status = null; return; }
   try {
     state.status = await api('status.php');
   } catch {
@@ -232,7 +239,7 @@ $('#applyVip').addEventListener('click', async () => {
     const r = await api('vip.php', { code });
     if (r.valid) {
       activateVip(code, r.expires_at);
-      msg.textContent = 'Code VIP activé, bon film !';
+      msg.textContent = 'Code VIP activé, bon film\u00a0!';
       setTimeout(closeSupport, 1500);
     } else {
       msg.textContent = r.error || 'Code VIP invalide ou expiré.';
@@ -245,6 +252,7 @@ $('#vipCode').addEventListener('keydown', e => { if (e.key === 'Enter') $('#appl
 
 // Au chargement : on revérifie auprès du serveur le code VIP mémorisé sur cet appareil.
 (async () => {
+  if (STATIC_MODE) return;
   const saved = load(VIP_KEY);
   if (!saved?.code) return;
   if (saved.expires_at && new Date(saved.expires_at) < new Date()) { clearVip(); return; }
@@ -291,6 +299,16 @@ function loadPayPal(clientId) {
 }
 
 $('#donateButton').addEventListener('click', async () => {
+  if (STATIC_MODE) {
+    const msg = $('#staticMessage');
+    if (PAYPAL_ME_URL) {
+      window.open(PAYPAL_ME_URL, '_blank', 'noopener');
+      msg.textContent = 'Merci beaucoup ! La page PayPal s\'est ouverte dans un nouvel onglet.';
+    } else {
+      msg.textContent = 'Les dons seront bientôt disponibles. Merci de votre soutien, bon film\u00a0!';
+    }
+    return;
+  }
   $('#donateArea').hidden = false;
   $('#vipArea').hidden = true;
   $('#donateButton').hidden = true;
@@ -346,4 +364,9 @@ $('#copyVip').addEventListener('click', async () => {
   }
 });
 
+if (STATIC_MODE) {
+  // Sans serveur : on masque le compteur et les codes VIP plutôt que d'afficher des chiffres faux.
+  $('#goalBox').hidden = true;
+  $('#vipButton').hidden = true;
+}
 refreshStatus();
