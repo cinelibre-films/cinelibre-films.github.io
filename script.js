@@ -379,8 +379,33 @@ async function api(path, body) {
   return data;
 }
 
+// Lundi de la semaine en cours, heure de Paris (format AAAA-MM-JJ).
+function parisMonday(now = new Date()) {
+  const parts = new Intl.DateTimeFormat('en-CA', { timeZone: 'Europe/Paris', year: 'numeric', month: '2-digit', day: '2-digit' }).formatToParts(now);
+  const get = t => Number(parts.find(x => x.type === t).value);
+  const d = new Date(Date.UTC(get('year'), get('month') - 1, get('day')));
+  d.setUTCDate(d.getUTCDate() - ((d.getUTCDay() + 6) % 7));
+  return d.toISOString().slice(0, 10);
+}
+
+// Mode gratuit : la cagnotte vient du fichier cagnotte.json, mis à jour à la main.
+// Si le fichier date d'une semaine précédente, la cagnotte repart automatiquement de 0 € le lundi.
+async function loadCagnotte() {
+  const res = await fetch(`cagnotte.json?t=${Date.now()}`, { cache: 'no-store' });
+  if (!res.ok) throw new Error('cagnotte indisponible');
+  const c = await res.json();
+  const goal = Number(c.objectif) || 160;
+  const total = c.lundi === parisMonday() ? Math.max(0, Number(c.montant) || 0) : 0;
+  return { total, goal, reached: total >= goal };
+}
+
 async function refreshStatus() {
-  if (STATIC_MODE) { state.status = null; return; }
+  if (STATIC_MODE) {
+    try { state.status = await loadCagnotte(); } catch { state.status = null; }
+    $('#goalBox').hidden = !state.status;
+    paintGoal();
+    return;
+  }
   try {
     state.status = await api('status.php');
   } catch {
@@ -615,7 +640,7 @@ $('#copyVip').addEventListener('click', async () => {
 });
 
 if (STATIC_MODE) {
-  // Sans serveur : on masque le compteur et les codes VIP plutôt que d'afficher des chiffres faux.
+  // Sans serveur : pas de codes VIP ; le compteur s'affiche seulement si cagnotte.json est lisible.
   $('#goalBox').hidden = true;
   $('#vipButton').hidden = true;
 }
